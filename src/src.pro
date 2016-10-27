@@ -1,6 +1,6 @@
 TARGET = QtSentry
 
-SOURCES += lib.cpp
+SOURCES += qtsentry.cpp
 
 load(qt_module)
 
