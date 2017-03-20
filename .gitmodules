@@ -1,3 +1,6 @@
 [submodule "3rdparty/KSCrash"]
 	path = src/3rdparty/KSCrash
 	url = git@github.com:kstenerud/KSCrash.git
+[submodule "3rdparty/CrashProbe"]
+	path = src/3rdparty/CrashProbe
+	url = git@github.com:bitstadium/CrashProbe.git

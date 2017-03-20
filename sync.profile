@@ -1,5 +1,5 @@
 %modules = (
-	"QtSentry" => "$basedir/src",
+	"QtCrashReporter" => "$basedir/src/crashreporter",
 );
 %moduleheaders = (
 );
