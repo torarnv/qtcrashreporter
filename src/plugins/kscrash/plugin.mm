@@ -1,7 +1,6 @@
 #import <AppKit/AppKit.h>
 
 #import <KSCrash/KSCrash.h>
-#import <KSCrash/KSCrashAdvanced.h>
 #import <KSCrash/KSCrashInstallationConsole.h>
 
 #include <QDebug>
@@ -16,8 +15,9 @@ class QKSCrashHandler : public QObject, public QCrashHandler
 public:
     void install()
     {
-    	[[KSCrashInstallationConsole sharedInstance] install];
-    	[KSCrash sharedInstance].printTraceToStdout = YES;
+    	KSCrashInstallationConsole *instance = [KSCrashInstallationConsole sharedInstance];
+    	instance.printAppleFormat = YES;
+    	[instance install];
     }
 };
 

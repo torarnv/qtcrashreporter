@@ -19,7 +19,7 @@ kscrash.commands = xcodebuild -quiet \
 	TARGET_NAME=$$KSCRASH_TARGET
 
 QMAKE_EXTRA_TARGETS += kscrash
-PRE_TARGETDEPS += kscrash # FIXME: Prevent relink each time
+PRE_TARGETDEPS += kscrash #lib$${KSCRASH_TARGET}.a # FIXME: Prevent relink each time
 
 LIBS += -L$$OUT_PWD -l$$KSCRASH_TARGET
 INCLUDEPATH += $$OUT_PWD/include
