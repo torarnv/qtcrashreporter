@@ -1,0 +1,51 @@
+{
+    "module": "crashreporter",
+    "features": {
+        "kscrash": {
+            "label": "KSCrash",
+            "purpose": "The Ultimate iOS Crash Reporter",
+            "output": [
+                "publicFeature"
+            ]
+        },
+        "plcrashreporter": {
+            "label": "PLCrashReporter",
+            "purpose": "Reliable, open-source crash reporting for iOS and Mac OS X",
+            "output": [
+                "publicFeature"
+            ]
+        },
+        "breakpad": {
+            "label": "breakpad",
+            "purpose": "A set of client and server components which implement a crash-reporting system",
+            "output": [
+                "publicFeature"
+            ]
+        },
+        "sentry": {
+            "label": "Sentry",
+            "purpose": "Cross-platform crash reporting and aggregation platform",
+            "output": [
+                "publicFeature"
+            ]
+        }
+    },
+
+    "summary": [
+        {
+            "section": "Crash Handlers",
+            "entries": [
+                "kscrash",
+                "plcrashreporter",
+                "breakpad"
+            ]
+        },
+        {
+            "section": "Crash Reporters",
+            "entries": [
+                "sentry",
+                "breakpad"
+            ]
+        }
+    ]
+}

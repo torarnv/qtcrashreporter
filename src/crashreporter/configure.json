@@ -1,0 +1,8 @@
+{
+ 	"module": "crashreporter",
+    "depends": [
+        "corelib",
+        "network"
+    ]
+}
+
