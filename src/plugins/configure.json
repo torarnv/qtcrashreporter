@@ -1,5 +1,14 @@
 {
     "module": "crashreporter",
+
+    "tests": {
+        "xcodebuild": {
+            "label": "xcodebuild",
+            "type": "files",
+            "files": [ "xcodebuild" ]
+        }
+    },
+
     "features": {
         "kscrash": {
             "label": "KSCrash",
@@ -17,6 +26,7 @@
         },
         "breakpad": {
             "label": "breakpad",
+            "autoDetect": "!config.mac",
             "purpose": "A set of client and server components which implement a crash-reporting system",
             "output": [
                 "publicFeature"

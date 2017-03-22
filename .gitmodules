@@ -4,3 +4,6 @@
 [submodule "3rdparty/CrashProbe"]
 	path = src/3rdparty/CrashProbe
 	url = git@github.com:bitstadium/CrashProbe.git
+[submodule "3rdparty/breakpad"]
+	path = src/3rdparty/breakpad
+	url = https://chromium.googlesource.com/breakpad/breakpad

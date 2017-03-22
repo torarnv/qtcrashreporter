@@ -44,13 +44,23 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_DECL_EXPORT QCrashReporter : public QObject
+#define QCrashReporterInterface_iid "org.qt-project.Qt.QCrashReporterInterface"
+
+class Q_DECL_EXPORT QCrashReporter
 {
-	Q_OBJECT
 public:
+	static void install();
+	static void foo();
+
+protected:
 	QCrashReporter();
-    ~QCrashReporter() {}
+    virtual ~QCrashReporter() {}
+	Q_DISABLE_COPY(QCrashReporter)
+
+	virtual void report() = 0;
 };
+
+Q_DECLARE_INTERFACE(QCrashReporter, QCrashReporterInterface_iid)
 
 QT_END_NAMESPACE
 

@@ -44,9 +44,27 @@
 
 #include <QDebug>
 
-QCrashReporter::QCrashReporter()
+#include <stdexcept>
+
+QCrashReporter::QCrashReporter() {}
+
+void QCrashReporter::install()
 {
 	QFactoryLoader loader(QCrashHandlerInterface_iid, QLatin1String("/crash"));
 	for (int i = 0; i < loader.metaData().size(); ++i)
         qobject_cast<QCrashHandler *>(loader.instance(i))->install();
+
+    QFactoryLoader reporters(QCrashReporterInterface_iid, QLatin1String("/crash"));
+	for (int i = 0; i < reporters.metaData().size(); ++i)
+        qobject_cast<QCrashReporter *>(reporters.instance(i))->report();
+}
+
+void QCrashReporter::foo()
+{
+
+    throw std::invalid_argument( "received negative value" );
+
+	QFactoryLoader loader(QCrashHandlerInterface_iid, QLatin1String("/crash"));
+	for (int i = 0; i < loader.metaData().size(); ++i)
+        qobject_cast<QCrashHandler *>(loader.instance(i))->except();
 }

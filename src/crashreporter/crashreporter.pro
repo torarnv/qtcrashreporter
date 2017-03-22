@@ -7,4 +7,5 @@ QT += core-private
 
 load(qt_module)
 
+CONFIG += exceptions
 CONFIG -= create_cmake

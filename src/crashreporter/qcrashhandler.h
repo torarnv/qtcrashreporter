@@ -49,9 +49,12 @@ QT_BEGIN_NAMESPACE
 
 class QCrashHandler
 {
-public:
+protected:
     virtual ~QCrashHandler() {}
     virtual void install() = 0;
+    virtual void except() {};
+
+    friend class QCrashReporter;
 };
 
 Q_DECLARE_INTERFACE(QCrashHandler, QCrashHandlerInterface_iid)
