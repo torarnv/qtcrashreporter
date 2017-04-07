@@ -37,24 +37,34 @@
 **
 ****************************************************************************/
 
-#ifndef QCRASHREPORTER_H
-#define QCRASHREPORTER_H
+#ifndef QCRASHHANDLER_KSCRASH_P_H
+#define QCRASHHANDLER_KSCRASH_P_H
 
-#include <QtCore/qobject.h>
+#include "qcrashhandler_p.h"
+
+//
+//  W A R N I N G
+//  -------------
+//
+// This file is not part of the Qt API.  It exists purely as an
+// implementation detail.  This header file may change from version to
+// version without notice, or even be removed.
+//
+// We mean it.
+//
 
 QT_BEGIN_NAMESPACE
 
-class Q_DECL_EXPORT QCrashReporter
+class QKSCrashHandler : public QCrashHandler
 {
 public:
-	static void install();
-	static void foo();
+	QKSCrashHandler();
+    ~QKSCrashHandler() override;
 
-	QCrashReporter();
-    virtual ~QCrashReporter() {}
-	Q_DISABLE_COPY(QCrashReporter)
+    void install() override;
+    void report() override;
 };
 
 QT_END_NAMESPACE
 
-#endif // QCRASHREPORTER_H
+#endif // QCRASHHANDLER_KSCRASH_P_H

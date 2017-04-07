@@ -1,0 +1,8 @@
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>io.qt.qcrashreporter.test</string>
+    <key>CFBundleName</key>
+    <string>qcrashreportertest</string>
+</dict>
+</plist>

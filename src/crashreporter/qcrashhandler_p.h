@@ -37,28 +37,36 @@
 **
 ****************************************************************************/
 
-#ifndef QCRASHHANDLER_H
-#define QCRASHHANDLER_H
+#ifndef QCRASHHANDLER_P_H
+#define QCRASHHANDLER_P_H
 
-#include <QtCore/qplugin.h>
-#include <QtCore/qfactoryinterface.h>
+//
+//  W A R N I N G
+//  -------------
+//
+// This file is not part of the Qt API.  It exists purely as an
+// implementation detail.  This header file may change from version to
+// version without notice, or even be removed.
+//
+// We mean it.
+//
 
 QT_BEGIN_NAMESPACE
 
-#define QCrashHandlerInterface_iid "org.qt-project.Qt.QCrashHandlerInterface"
-
 class QCrashHandler
 {
-protected:
+public:
+	QCrashHandler();
     virtual ~QCrashHandler() {}
-    virtual void install() = 0;
-    virtual void except() {};
 
-    friend class QCrashReporter;
+    void initialize();
+protected:
+	virtual void install() = 0;
+	virtual void report() = 0;
+
+	static void relaunchAsCrashReporter();
 };
-
-Q_DECLARE_INTERFACE(QCrashHandler, QCrashHandlerInterface_iid)
 
 QT_END_NAMESPACE
 
-#endif // QCRASHHANDLER_H
+#endif // QCRASHHANDLER_P_H

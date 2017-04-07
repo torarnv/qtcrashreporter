@@ -1,45 +1,53 @@
 {
     "module": "crashreporter",
 
+    "subconfigs": [
+        "crashreporter"
+    ],
+
     "tests": {
+    	"git": {
+        	"label": "git",
+            "type": "git"
+        },
         "xcodebuild": {
             "label": "xcodebuild",
-            "type": "files",
-            "files": [ "xcodebuild" ]
+            "type": "xcodebuild"
         }
     },
 
     "features": {
         "kscrash": {
             "label": "KSCrash",
+            "condition": "tests.git && tests.xcodebuild",
             "purpose": "The Ultimate iOS Crash Reporter",
-            "output": [
-                "publicFeature"
-            ]
+            "output": [ "publicFeature" ]
         },
         "plcrashreporter": {
             "label": "PLCrashReporter",
             "purpose": "Reliable, open-source crash reporting for iOS and Mac OS X",
-            "output": [
-                "publicFeature"
-            ]
+            "output": [ "publicFeature" ]
         },
         "breakpad": {
             "label": "breakpad",
             "autoDetect": "!config.mac",
             "purpose": "A set of client and server components which implement a crash-reporting system",
-            "output": [
-                "publicFeature"
-            ]
+            "output": [ "publicFeature" ]
         },
         "sentry": {
             "label": "Sentry",
             "purpose": "Cross-platform crash reporting and aggregation platform",
-            "output": [
-                "publicFeature"
-            ]
+            "output": [ "publicFeature" ]
         }
     },
+
+    "report": [
+        {
+            "type": "warning",
+            "condition": "!tests.git",
+            "message": "Git was not found, 3rdparty reporters will not be built."
+        }
+    ],
 
     "summary": [
         {

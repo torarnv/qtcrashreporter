@@ -37,24 +37,54 @@
 **
 ****************************************************************************/
 
-#ifndef QCRASHREPORTER_H
-#define QCRASHREPORTER_H
+#include "qcrashhandler_p.h"
 
-#include <QtCore/qobject.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <libproc.h>
+#include <unistd.h>
 
-QT_BEGIN_NAMESPACE
+#include <QDebug>
 
-class Q_DECL_EXPORT QCrashReporter
+static const char *kQCrashReporterReportCrash = "QCRASHREPORTER_REPORT_CRASH";
+
+QCrashHandler::QCrashHandler()
 {
-public:
-	static void install();
-	static void foo();
+}
 
-	QCrashReporter();
-    virtual ~QCrashReporter() {}
-	Q_DISABLE_COPY(QCrashReporter)
-};
+void QCrashHandler::initialize()
+{
+	if (getenv(kQCrashReporterReportCrash)) {
+        report();
+        exit(0);
+    } else {
+    	install();
+    	report();
+    }	
+}
 
-QT_END_NAMESPACE
+void QCrashHandler::relaunchAsCrashReporter()
+{
+	printf("Crashed!\n");
+    pid_t pid = fork();
+    if (pid == 0) {
+        // Child
+        char executablePath[PROC_PIDPATHINFO_MAXSIZE];
+        if (proc_pidpath(getpid(), executablePath, sizeof(executablePath)) <= 0) {
+            // Failed to get path
+            exit(127); //FIXME 
+        }
 
-#endif // QCRASHREPORTER_H
+        static char *argv [] = { "qcrashreporter", nullptr };
+        setenv(kQCrashReporterReportCrash, "1", 1);
+        extern char** environ;
+        execve(executablePath, argv, environ);
+        exit(127);
+    } else {
+        waitpid(pid, 0, 0);
+    }
+
+    printf("done\n");
+}

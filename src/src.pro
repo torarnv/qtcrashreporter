@@ -1,3 +1,4 @@
 TEMPLATE = subdirs
 CONFIG += ordered
-SUBDIRS += crashreporter plugins
+
+SUBDIRS += 3rdparty crashreporter

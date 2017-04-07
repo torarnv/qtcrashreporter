@@ -1,6 +1,5 @@
 {
     "subconfigs": [
-        "src/crashreporter",
-        "src/plugins"
+        "src"
     ]
 }

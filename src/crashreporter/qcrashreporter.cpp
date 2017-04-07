@@ -39,32 +39,29 @@
 
 #include "qcrashreporter.h"
 
-#include "qcrashhandler.h"
-#include <private/qfactoryloader_p.h>
+#include "qcrashhandler_kscrash_p.h"
 
 #include <QDebug>
 
-#include <stdexcept>
+Q_GLOBAL_STATIC(QKSCrashHandler, crashHandler);
 
-QCrashReporter::QCrashReporter() {}
+static void initialize()
+{
+	crashHandler->initialize();
+	qDebug() << "initialized" << crashHandler;
+}
+
+Q_CONSTRUCTOR_FUNCTION(initialize);
+
+QCrashReporter::QCrashReporter() {
+	qDebug() << "Ctor";
+}
 
 void QCrashReporter::install()
 {
-	QFactoryLoader loader(QCrashHandlerInterface_iid, QLatin1String("/crash"));
-	for (int i = 0; i < loader.metaData().size(); ++i)
-        qobject_cast<QCrashHandler *>(loader.instance(i))->install();
-
-    QFactoryLoader reporters(QCrashReporterInterface_iid, QLatin1String("/crash"));
-	for (int i = 0; i < reporters.metaData().size(); ++i)
-        qobject_cast<QCrashReporter *>(reporters.instance(i))->report();
+	qDebug() << "install";
 }
 
 void QCrashReporter::foo()
 {
-
-    throw std::invalid_argument( "received negative value" );
-
-	QFactoryLoader loader(QCrashHandlerInterface_iid, QLatin1String("/crash"));
-	for (int i = 0; i < loader.metaData().size(); ++i)
-        qobject_cast<QCrashHandler *>(loader.instance(i))->except();
 }

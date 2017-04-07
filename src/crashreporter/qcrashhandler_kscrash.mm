@@ -1,3 +1,9 @@
+#import <AppKit/AppKit.h>
+
+#import <KSCrash/KSCrash.h>
+#import <KSCrash/KSCrashInstallationConsole.h>
+#import <KSLogger.h>
+
 /****************************************************************************
 **
 ** Copyright (C) 2017 The Qt Company Ltd.
@@ -37,24 +43,60 @@
 **
 ****************************************************************************/
 
-#ifndef QCRASHREPORTER_H
-#define QCRASHREPORTER_H
+#include "qcrashhandler_kscrash_p.h"
 
-#include <QtCore/qobject.h>
+#import <KSCrash/KSCrash.h>
+#import <KSCrash/KSCrashInstallationConsole.h>
+#import <KSLogger.h>
 
-QT_BEGIN_NAMESPACE
+#include <KSCrash/KSCrashC.h>
 
-class Q_DECL_EXPORT QCrashReporter
+#include <QDebug>
+
+/*
+    FIXME: Name of crash dump directory is based off CFBundleName, should fix Qt
+    to support Info.plist for non-bundle apps, and/or teach KSCrash how to fall
+    back to using CFBundleIdentifier or last resort the executable name.
+*/
+
+static void writeUserDataCallback(const KSCrashReportWriter* writer)
 {
-public:
-	static void install();
-	static void foo();
+}
 
-	QCrashReporter();
-    virtual ~QCrashReporter() {}
-	Q_DISABLE_COPY(QCrashReporter)
-};
+QKSCrashHandler::QKSCrashHandler() : QCrashHandler()
+{
+    qDebug() << "QKSCrashHandler";
+}
 
-QT_END_NAMESPACE
+QKSCrashHandler::~QKSCrashHandler()
+{
+}
 
-#endif // QCRASHREPORTER_H
+void QKSCrashHandler::install()
+{
+    qDebug() << "installing";
+    KSCrashInstallationConsole *installation = [KSCrashInstallationConsole sharedInstance];
+    [installation install];
+
+    installation.onCrash = writeUserDataCallback;
+
+    kscrash_setReportWrittenCallback(relaunchAsCrashReporter);
+}
+
+void QKSCrashHandler::report()
+{
+    install();
+
+    qDebug() << "reporting crash";
+    
+    KSCrashInstallationConsole *installation = [KSCrashInstallationConsole sharedInstance];
+    installation.printAppleFormat = YES;
+
+    [installation sendAllReportsWithCompletion:^(NSArray* reports, BOOL completed, NSError* error) {
+        if (!completed)
+            NSLog(@"Failed to send reports: %@", error);
+    }];
+
+    qDebug() << "done repoting crash";
+}
+
