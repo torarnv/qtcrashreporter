@@ -53,18 +53,30 @@
 
 QT_BEGIN_NAMESPACE
 
+class QCrashReporter;
+
+class QCrashReport
+{
+public:
+	virtual ~QCrashReport() {}
+
+	virtual QUuid uuid() const = 0;
+	virtual QDateTime occured() const = 0;
+
+	virtual const QJsonObject data() const = 0;
+};
+
 class QCrashHandler
 {
 public:
 	QCrashHandler();
     virtual ~QCrashHandler() {}
 
-    void initialize();
-protected:
 	virtual void install() = 0;
-	virtual void report() = 0;
+	virtual void report(QCrashReporter *reporter) = 0;
 
-	static void relaunchAsCrashReporter();
+protected:
+	static void relaunchAndReport();
 };
 
 QT_END_NAMESPACE

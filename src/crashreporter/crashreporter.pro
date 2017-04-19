@@ -16,4 +16,12 @@ qtConfig(kscrash) {
 	SOURCES += qcrashhandler_kscrash.mm
 	HEADERS += qcrashhandler_kscrash_p.h
 	include(../3rdparty/KSCrash.pri)
+	# FIXME
+	PRE_TARGETDEPS = $$BUILD_DIR/lib$${KSCRASH_TARGET}.a
+}
+
+qtConfig(sentry) {
+	SOURCES += qsentrycrashreporter.cpp
+	HEADERS += qsentrycrashreporter.h
+	QT += network
 }

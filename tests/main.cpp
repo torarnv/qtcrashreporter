@@ -1,7 +1,7 @@
 #include <QtCore>
 #include <QtWidgets>
 
-#include <qcrashreporter.h>
+#include <qsentrycrashreporter.h>
 
 #include <stdexcept>
 
@@ -25,12 +25,30 @@
 
 int main(int argc, char **argv)
 {
-	qDebug() << "a";
+#if 0
+	QSentryCrashReporter sentry;
+	sentry.setHost("localhost");
+	sentry.setId("askjdhasdasd");
+	sentry.setLogToConsole(true);
+	sentry.setDeferDelivery(true);
+	sentry.setDeliverOnInstall(false);
+	QObject::connect(&sentry, &QCrashReporter::deliverReport, [](QCrashReporter::Report *report) {
+		QDialog::exec(); // Ask for more info
+	});
+	sentry.install();
+
+	sentry.deliverReports();
+#endif 
+
+	QSentryCrashReporter sentry("https://pub:priv@sentry.io/107125");
+	/*QObject::connect(&sentry, &QSentryCrashReporter::reportSent, []() {
+		qDebug() << "report sent";
+	});*/
+	sentry.install();
+
 	QApplication app(argc, argv);
-	qDebug() << "b";
 
 	QWidget window;
-   qDebug() << "c";
 	window.resize(500, 500);
 	QPushButton button("Crash", &window);
     QObject::connect(&button, &QPushButton::clicked, []() {
@@ -46,9 +64,7 @@ int main(int argc, char **argv)
 	  "be used");
 	crashInformation.exec();
 #endif
-	qDebug() << "e";
 	window.show();
-	qDebug() << "f";
 
 	qDebug() << "application started";
 	return app.exec();

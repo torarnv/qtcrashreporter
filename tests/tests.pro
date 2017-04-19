@@ -4,6 +4,9 @@ QT += widgets crashreporter
 SOURCES += main.cpp
 CONFIG += exceptions
 
+CONFIG += debug
+CONFIG -= release
+
 #QMAKE_INFO_PLIST = $$PWD/Info.plist
 
 # FIXME: qmake should do this

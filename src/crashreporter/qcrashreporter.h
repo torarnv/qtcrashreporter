@@ -41,18 +41,30 @@
 #define QCRASHREPORTER_H
 
 #include <QtCore/qobject.h>
+#include <QtCore/qjsonobject.h>
+
+#include "qcrashhandler_p.h"
 
 QT_BEGIN_NAMESPACE
 
 class Q_DECL_EXPORT QCrashReporter
 {
 public:
-	static void install();
-	static void foo();
-
 	QCrashReporter();
     virtual ~QCrashReporter() {}
 	Q_DISABLE_COPY(QCrashReporter)
+
+	void install();
+	virtual bool report(const QCrashReport &report);
+
+protected:
+	QScopedPointer<QCrashHandler> m_crashHandler;
+
+	static void relaunchAndReport();
+
+	friend class QCrashHandler;
+
+	static bool s_reportingCrash;
 };
 
 QT_END_NAMESPACE

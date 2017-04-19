@@ -62,7 +62,7 @@ public:
     ~QKSCrashHandler() override;
 
     void install() override;
-    void report() override;
+    void report(QCrashReporter *) override;
 };
 
 QT_END_NAMESPACE
